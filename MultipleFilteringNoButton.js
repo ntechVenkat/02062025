@@ -33,46 +33,33 @@ const BrPostApi = () => {
     e.preventDefault();
     const { name, value } = e.target;
     setSearch({ ...search, [name]: value });
-    filteringApplications();
   };
 
-  const filteringApplications = () => {
-    console.log(search);
-    const filteredApplications = applications.filter(
-      (each) =>
-        (search.applicationType
-          ? each.application_type.includes(search.applicationType)
-          : true) &&
-        (search.district
-          ? each.district_name.includes(search.district)
-          : true) &&
-        (search.applicantName
-          ? each.applicant_name.includes(search.applicantName)
-          : true) &&
-        (search.localityName
-          ? each.locality.includes(search.localityName)
-          : true)
-    );
-    console.log(filteredApplications);
-    setApplications(filteredApplications);
-  };
-
-  // const clickSearchApplications = () => {
-  //   // console.log(search);
-  //   const filteredApplications = applications.filter(
-  //     (each) =>
-  //       (search.applicationType
-  //         ? each.application_type === search.applicationType
-  //         : true) &&
-  //       (search.applicantName
-  //         ? each.applicant_name === search.applicantName
-  //         : true) &&
-  //       (search.district ? each.district_name === search.district : true) &&
-  //       (search.localityName ? each.locality === search.localityName : true)
-  //   );
-  //   console.log(filteredApplications);
-  //   setApplications(filteredApplications);
-  // };
+  const filteredApplications = applications.filter(
+    (each) =>
+      (search.applicationType
+        ? each.application_type
+            .toLowerCase()
+            .includes(search.applicationType.toLowerCase())
+        : true) &&
+      (search.district
+        ? each.district_name
+            .toLowerCase()
+            .includes(search.district.toLowerCase())
+        : true) &&
+      (search.applicantName
+        ? each.applicant_name
+            .toLowerCase()
+            .includes(search.applicantName.toLowerCase())
+        : true) &&
+      (search.localityName
+        ? each.locality
+            .toLowerCase()
+            .includes(search.localityName.toLowerCase())
+        : true)
+  );
+  console.log(search);
+  console.log(filteredApplications);
 
   return (
     <div>
@@ -110,17 +97,8 @@ const BrPostApi = () => {
           value={search.localityName}
           onChange={changeHandler}
         />
-        {/* <button
-          className="btn btn-primary m-2"
-          onClick={clickSearchApplications}
-        >
-          Search
-        </button> */}
       </div>
-      <Table applications={applications} />
-      {/* {applications.map((each, index) => (
-        <h1 key={index}> {each.application_id}</h1>
-      ))} */}
+      <Table applications={filteredApplications} />
     </div>
   );
 };
